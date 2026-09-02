@@ -8,7 +8,7 @@ A personal portfolio/CV site deployed on AWS using a private-origin, CDN-fronted
 
 ## Architecture
 
-![Architecture diagram](architecture/architecture.png)
+![Architecture diagram](architecture.png)
 
 ```
 Internet
