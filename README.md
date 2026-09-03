@@ -42,9 +42,7 @@ This project deliberately avoids the common "S3 static website hosting + public 
 - **IAM:** all provisioning and deployment is done through a dedicated `aws-portfolio-project` IAM user with a customer-managed policy (`PortfolioProjectAccess`), scoped to the services this project needs (S3, CloudFront, Lambda, CloudWatch Logs, plus the narrow IAM permissions required to create/pass a Lambda execution role). Root is used only for account-level setup and has MFA enabled.
 - **Current limitation, tracked as a next step:** the IAM policy is service-scoped rather than fully resource-level (e.g. `cloudfront:*` rather than restricted to the one distribution ARN). Tightening this to resource-level least privilege is planned — see [Roadmap](#roadmap).
 
-## Deployment process (current — manual)
-
-## Deployment process
+## Deployment process (previously manual)
 
 Pushing to `main` (with changes under `site/`) triggers a GitHub Actions workflow
 ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)) that syncs the site
