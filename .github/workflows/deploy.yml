@@ -1,0 +1,27 @@
+name: Deploy to S3
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+
+permissions:
+  id-token: write   # required to request the OIDC token
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::260317865228:role/github-actions-deploy-portfolio
+          aws-region: eu-central-1
+
+      - name: Sync site to S3
+        run: aws s3 sync ./site s3://dexthida-portfolio-site-project --delete
