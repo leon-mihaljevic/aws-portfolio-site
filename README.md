@@ -73,8 +73,8 @@ Designed to stay effectively free/negligible at portfolio-site traffic levels:
 
 ## Roadmap
 
-- [ ] CI/CD: replace manual `s3 sync` + invalidation with an automated git-push-triggered deployment
-- [ ] Lambda: automated CloudFront invalidation triggered by an S3 upload event
+- [x] CI/CD: replace manual `s3 sync` + invalidation with an automated git-push-triggered deployment
+- [x] Lambda: automated CloudFront invalidation triggered by an S3 upload event
 - [ ] CloudWatch: logs, metrics, and at least one alarm
 - [ ] IAM: tighten `PortfolioProjectAccess` from service-level to resource-level least privilege
 - [ ] Infrastructure as Code (Terraform or CloudFormation) for a fully reproducible environment
