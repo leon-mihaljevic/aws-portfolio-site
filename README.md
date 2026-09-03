@@ -29,7 +29,7 @@ The bucket is **never** publicly reachable. Every request — whether from a bro
 | **S3** | Origin storage for static site files (HTML/CSS/PDF), fully private |
 | **CloudFront** | CDN, HTTPS termination, HTTP→HTTPS redirect, global edge caching |
 | **IAM** | Dedicated least-privilege user/policy for all project operations (no root usage) |
-| *(planned)* Lambda | Automated cache invalidation on deploy |
+| **Lambda** | Automated cache invalidation on deploy |
 | *(planned)* CloudWatch | Logs/metrics/alarms for the distribution |
 
 ## Security model
@@ -44,17 +44,15 @@ This project deliberately avoids the common "S3 static website hosting + public 
 
 ## Deployment process (current — manual)
 
-```bash
-# sync updated site files to the private bucket
-aws s3 sync ./site s3://dexthida-portfolio-site-project --delete
+## Deployment process
 
-# invalidate the CloudFront cache so the change is visible immediately
-aws cloudfront create-invalidation \
-  --distribution-id E34T8I1WWAU4N \
-  --paths "/*"
-```
+Pushing to `main` (with changes under `site/`) triggers a GitHub Actions workflow
+([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)) that syncs the site
+to S3. Cache invalidation still happens automatically via the Lambda trigger.
 
-Both commands run under the scoped `aws-portfolio-project` IAM credentials configured locally via `aws configure` — never under root.
+Authentication uses **OIDC** — GitHub presents a short-lived signed token directly to
+AWS STS to assume `github-actions-deploy-portfolio`, and no AWS credentials are stored
+in GitHub at all (no access keys, nothing to leak or rotate).
 
 ## Cost considerations
 
@@ -70,6 +68,13 @@ Designed to stay effectively free/negligible at portfolio-site traffic levels:
 - The CloudFront **origin path** setting is a path *inside* the bucket (e.g. a subfolder), not the bucket name itself — an early misconfiguration here caused 403s until corrected to empty.
 - OAC (the current AWS-recommended pattern) replaces the older Origin Access Identity (OAI) approach and integrates directly with SigV4 signing rather than a separate CloudFront "canonical user" — worth understanding the distinction when it comes up on the AWS Solutions Architect Associate exam.
 - Manually running `s3 sync` + `create-invalidation` after every change is a natural first pass, but it's exactly the kind of repetitive, error-prone step that automation (Lambda, or a CI/CD pipeline) exists to remove — motivating the next phase of this project.
+- GitHub rolled out a newer, immutable-ID format for the OIDC `sub` claim
+  (`repo:owner@id/repo@id:ref:...`), different from the human-readable
+  `repo:owner/repo:ref:...` format most OIDC tutorials show. Diagnosed via
+  CloudTrail (checking the actual `sub` value AWS received on the failed
+  `AssumeRoleWithWebIdentity` call) and updated the trust policy's condition
+  to match — a good reminder to verify federated-identity claims against
+  the real request rather than assuming documentation examples are current.
 
 ## Roadmap
 
