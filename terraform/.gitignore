@@ -1,0 +1,8 @@
+# Local Terraform state - contains resource details, not meant to be shared/versioned
+# for a solo project. Never commit real state files.
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl.bak
+crash.log
+*.tfvars
