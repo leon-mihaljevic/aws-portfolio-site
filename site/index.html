@@ -1,419 +1,373 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leon Mihaljević | Cloud & Infrastructure</title>
+<meta
+  name="description"
+  content="Computer Science student focused on AWS, cloud infrastructure, Linux, networking and cybersecurity."
+>
 
-    <title>Leon Mihaljević | Cloud & Infrastructure</title>
-    <meta
-        name="description"
-        content="Computer Science student focused on AWS, cloud infrastructure, Linux, networking and cybersecurity."
-    >
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-<header class="navbar">
-    <div class="container nav-inner">
-        <a href="#" class="logo">LM</a>
+<a href="#main" class="skip-link">Skip to content</a>
 
-        <nav>
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#projects">Projects</a>
-            <a href="#education">Education</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </div>
+<header class="site-header">
+  <div class="container nav">
+    <a href="#top" class="brand">
+      <span class="brand-mark">LM</span>
+    </a>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#certifications">Certifications</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Switch to light theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+    </button>
+  </div>
 </header>
 
-<main>
+<main id="main">
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="container hero-content">
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="container hero-grid">
 
-            <p class="eyebrow">COMPUTER SCIENCE • CLOUD • INFRASTRUCTURE</p>
-
-            <h1>
-                Leon Mihaljević
-            </h1>
-
-            <h2>
-                Building and understanding<br>
-                <span>cloud infrastructure.</span>
-            </h2>
-
-            <p class="hero-description">
-                Computer Science student at the Faculty of Electrical Engineering
-                and Computing (FER), focused on AWS, infrastructure, networking,
-                virtualization, automation and cybersecurity.
-            </p>
-
-            <div class="hero-buttons">
-                <a href="#projects" class="button primary">View Projects</a>
-                <a href="cv.pdf" class="button secondary" target="_blank">Download CV</a>
-            </div>
-
+      <div class="hero-copy">
+        <p class="term-line">~ $ whoami</p>
+        <h1>Leon Mihaljević</h1>
+        <h2>Designing cloud infrastructure that runs, watches and heals itself.</h2>
+        <p class="lede">
+          Computer Science student at FER Zagreb, focused on AWS, cloud infrastructure,  
+          automation, networking, virtualization and cybersecurity.
+        </p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">View projects</a>
+          <a href="cv.pdf" class="btn btn-ghost" target="_blank" rel="noopener">Download CV</a>
         </div>
-    </section>
+      </div>
 
-
-    <!-- ABOUT -->
-    <section id="about" class="section">
-        <div class="container">
-
-            <div class="section-heading">
-                <p class="section-label">01 / ABOUT</p>
-                <h2>Infrastructure first.</h2>
-            </div>
-
-            <div class="about-grid">
-
-                <div>
-                    <p class="large-text">
-                        I am a Computer Science student with hands-on experience
-                        building and managing server infrastructure, virtualized
-                        environments and cloud services.
-                    </p>
-
-                    <p>
-                        My focus is on understanding how infrastructure works
-                        end-to-end: compute, storage, networking, identity,
-                        security and automation.
-                    </p>
-
-                    <p>
-                        I prefer building systems and solving infrastructure
-                        problems over writing large amounts of application code.
-                    </p>
-                </div>
-
-                <div class="about-card">
-                    <div class="stat">
-                        <span class="stat-value">AWS</span>
-                        <span class="stat-label">Cloud focus</span>
-                    </div>
-
-                    <div class="stat">
-                        <span class="stat-value">Linux</span>
-                        <span class="stat-label">Systems</span>
-                    </div>
-
-                    <div class="stat">
-                        <span class="stat-value">Proxmox</span>
-                        <span class="stat-label">Virtualization</span>
-                    </div>
-
-                    <div class="stat">
-                        <span class="stat-value">Docker</span>
-                        <span class="stat-label">Containers</span>
-                    </div>
-                </div>
-
-            </div>
-
+<!--      <div class="hero-metrics reveal">
+        <div class="metric">
+          <span class="metric-value">0</span>
+          <span class="metric-label">Long-lived AWS credentials stored in CI. Deploying authenticate via OIDC</span>
         </div>
-    </section>
-
-
-    <!-- SKILLS -->
-    <section id="skills" class="section section-dark">
-        <div class="container">
-
-            <div class="section-heading">
-                <p class="section-label">02 / SKILLS</p>
-                <h2>Technical stack.</h2>
-            </div>
-
-            <div class="skills-grid">
-
-                <div class="skill-card">
-                    <h3>Cloud & Infrastructure</h3>
-                    <p>
-                        AWS, EC2, S3, IAM, Lambda, CloudFront, CloudWatch, Terraform,
-                        Proxmox VE, Ubuntu Server, Docker
-                    </p>
-                </div>
-
-                <div class="skill-card">
-                    <h3>Systems</h3>
-                    <p>
-                        Linux administration, virtualization,
-                        server management, persistent storage
-                    </p>
-                </div>
-
-                <div class="skill-card">
-                    <h3>Networking</h3>
-                    <p>
-                        Routing, DHCP, VPN, NFS, Samba,
-                        network configuration and troubleshooting
-                    </p>
-                </div>
-
-                <div class="skill-card">
-                    <h3>Security</h3>
-                    <p>
-                        IAM, least privilege, private cloud resources,
-                        access control and infrastructure security
-                    </p>
-                </div>
-
-                <div class="skill-card">
-                    <h3>Languages</h3>
-                    <p>
-                        Croatian — Native<br>
-                        English — C2<br>
-                        Spanish — A2
-                    </p>
-                </div>
-
-                <div class="skill-card">
-                    <h3>Currently Learning</h3>
-                    <p>
-                        AWS Solutions Architect Associate,
-                        cloud architecture and infrastructure automation
-                    </p>
-                </div>
-
-            </div>
-
+        <div class="metric">
+          <span class="metric-value">100%</span>
+          <span class="metric-label">Of the live AWS architecture defined and managed as Terraform code</span>
         </div>
-    </section>
-
-
-    <!-- PROJECTS -->
-    <section id="projects" class="section">
-        <div class="container">
-
-            <div class="section-heading">
-                <p class="section-label">03 / PROJECTS</p>
-                <h2>Things I've built.</h2>
-            </div>
-
-            <div class="projects-grid">
-
-                <!-- HOMELAB -->
-                <article class="project-card">
-
-                    <div class="project-number">01</div>
-
-                    <div class="project-content">
-
-                        <p class="project-type">SELF-HOSTED INFRASTRUCTURE</p>
-
-                        <h3>Self-Hosted Cloud Infrastructure Homelab</h3>
-
-                        <p>
-                            Designed and operated a virtualized home server using
-                            Proxmox VE with isolated virtual machines for storage
-                            and application workloads.
-                        </p>
-
-                        <ul>
-                            <li>Proxmox VE virtualization</li>
-                            <li>Docker-based service stack</li>
-                            <li>NFS / Samba persistent storage</li>
-                            <li>Networking and remote access</li>
-                        </ul>
-
-                        <div class="tags">
-                            <span>Proxmox</span>
-                            <span>Linux</span>
-                            <span>Docker</span>
-                            <span>NFS</span>
-                            <span>Samba</span>
-                        </div>
-
-                        <a
-                            href="https://github.com/leon-mihaljevic/home-lab"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="project-link"
-                        >
-                            View on GitHub →
-                        </a>
-
-                    </div>
-
-                </article>
-
-
-                <!-- AWS PROJECT -->
-                <article class="project-card featured">
-
-                    <div class="project-number">02</div>
-
-                    <div class="project-content">
-
-                        <p class="project-type">AWS / CLOUD ARCHITECTURE</p>
-
-                        <h3>Secure Static Portfolio on AWS</h3>
-
-                        <p>
-                            Designed and deployed a secure static website using
-                            Amazon S3 and CloudFront, with the S3 origin kept
-                            private behind Origin Access Control.
-                        </p>
-
-                        <ul>
-                            <li>Private S3 origin with Block Public Access</li>
-                            <li>CloudFront CDN with Origin Access Control</li>
-                            <li>HTTPS and cached content delivery</li>
-                            <li>IAM least-privilege access</li>
-                            <li>CloudWatch and Lambda planned for automation</li>
-                        </ul>
-
-                        <div class="tags">
-                            <span>AWS S3</span>
-                            <span>CloudFront</span>
-                            <span>IAM</span>
-                            <span>OAC</span>
-                            <span>CloudWatch</span>
-                            <span>Lambda</span>
-                        </div>
-
-                        <a
-                            href="https://github.com/leon-mihaljevic/aws-portfolio-site"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="project-link"
-                        >
-                            View on GitHub →
-                        </a>
-
-
-                    </div>
-
-                </article>
-
-            </div>
-
+        <div class="metric">
+          <span class="metric-value">Auto</span>
+          <span class="metric-label">Cache invalidation and failure alerting, with no manual steps</span>
         </div>
-    </section>
+      </div> -->
+
+    </div>
+  </section>
 
 
-    <!-- EDUCATION -->
-    <section id="education" class="section section-dark">
-        <div class="container">
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="container">
 
-            <div class="section-heading">
-                <p class="section-label">04 / EDUCATION</p>
-                <h2>Education & training.</h2>
-            </div>
+      <div class="section-head reveal">
+        <p class="term-line">~ $ cat about.md</p>
+        <h2>Infrastructure first.</h2>
+      </div>
 
-            <div class="timeline">
+      <div class="about-grid">
 
-                <div class="timeline-item">
-                    <div class="timeline-date">2026 — PRESENT</div>
-
-                    <div>
-                        <h3>
-                            Faculty of Electrical Engineering and Computing (FER)
-                        </h3>
-
-                        <p class="timeline-subtitle">
-                            B.Sc. Computer Science — Zagreb, Croatia
-                        </p>
-
-                        <p>
-                            Computer Science studies with a focus on developing
-                            a strong foundation in computing, systems and software.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-date">In progress</div>
-
-                    <div>
-                        <h3>AWS Certified Solutions Architect — Associate</h3>
-
-                        <p class="timeline-subtitle">
-                            Certification in progress
-                        </p>
-
-                        <p>
-                            Studying AWS architecture, IAM, networking,
-                            storage, compute, databases and infrastructure design.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-date">02 / 2026</div>
-
-                    <div>
-                        <h3>Google Cybersecurity Professional Certificate</h3>
-
-                        <p class="timeline-subtitle">
-                            Google / Coursera
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-
+        <div class="about-text">
+          <p class="lede">
+            I'm a Computer Science student with hands-on experience building and managing
+            server infrastructure, virtualized environments and cloud services.
+          </p>
+          <p>
+            My focus is on understanding how infrastructure works end-to-end: compute,
+            storage, networking, identity, security and automation.
+          </p>
+          <p>
+            I prefer building systems and solving infrastructure problems over writing
+            large amounts of application code.
+          </p>
         </div>
-    </section>
 
-
-    <!-- CONTACT -->
-    <section id="contact" class="section contact-section">
-        <div class="container contact-content">
-
-            <p class="section-label">05 / CONTACT</p>
-
-            <h2>
-                Let's connect.
-            </h2>
-
-            <p>
-                Interested in cloud infrastructure, systems, cybersecurity
-                or technology projects? Find me online.
-            </p>
-
-            <div class="contact-links">
-
-                <a
-                    href="mailto:leonmihaljevic7@gmail.com"
-                >
-                    Email
-                </a>
-
-                <a
-                    href="https://github.com/leon-mihaljevic"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    GitHub
-                </a>
-
-                <a
-                    href="https://linkedin.com/in/leon-mihaljevic7"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    LinkedIn
-                </a>
-
-            </div>
-
+        <div class="about-stats">
+          <div class="stat">
+            <span class="stat-value">AWS</span>
+            <span class="stat-label">Cloud focus</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">Linux</span>
+            <span class="stat-label">Systems</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">Proxmox</span>
+            <span class="stat-label">Virtualization</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">Docker</span>
+            <span class="stat-label">Containers</span>
+          </div>
         </div>
-    </section>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SKILLS -->
+  <section id="skills" class="section section-alt">
+    <div class="container">
+
+      <div class="section-head reveal">
+        <p class="term-line">~ $ ls skills/</p>
+        <h2>Technical stack.</h2>
+      </div>
+
+      <div class="skills-grid">
+
+        <div class="skill-card">
+          <h3>Cloud & Infrastructure</h3>
+          <div class="pill-row">
+            <span class="pill">AWS</span><span class="pill">EC2</span><span class="pill">S3</span>
+            <span class="pill">IAM</span><span class="pill">Lambda</span><span class="pill">CloudFront</span>
+            <span class="pill">CloudWatch</span><span class="pill">Terraform</span><span class="pill">Proxmox VE</span>
+            <span class="pill">Ubuntu Server</span><span class="pill">Docker</span>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h3>Systems</h3>
+          <div class="pill-row">
+            <span class="pill">Linux administration</span><span class="pill">Virtualization</span>
+            <span class="pill">Server management</span><span class="pill">Persistent storage</span>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h3>Networking</h3>
+          <div class="pill-row">
+            <span class="pill">Routing</span><span class="pill">DHCP</span><span class="pill">VPN</span>
+            <span class="pill">NFS</span><span class="pill">Samba</span><span class="pill">Network troubleshooting</span>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h3>Security</h3>
+          <div class="pill-row">
+            <span class="pill">IAM</span><span class="pill">Least privilege</span>
+            <span class="pill">Private cloud resources</span><span class="pill">Access control</span>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h3>Languages</h3>
+          <div class="pill-row">
+            <span class="pill">Croatian — Native</span><span class="pill">English — C2</span><span class="pill">Spanish — A2</span>
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <h3>Currently learning</h3>
+          <div class="pill-row">
+            <span class="pill">AWS Solutions Architect Associate</span>
+            <span class="pill">Cloud architecture</span><span class="pill">Infrastructure automation</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section">
+    <div class="container">
+
+      <div class="section-head reveal">
+        <p class="term-line">~ $ terraform state list</p>
+        <h2>Things I've built.</h2>
+      </div>
+
+      <div class="filters" id="filters" role="group" aria-label="Filter projects by tag"></div>
+
+      <div class="project-grid" id="projectGrid">
+
+        <article class="project-card featured" data-tags="aws,security,automation,terraform,iac">
+          <div class="project-top">
+            <p class="project-type">AWS / Cloud Architecture</p>
+            <span class="status status-live">Live</span>
+          </div>
+
+          <h3>Secure Static Portfolio on AWS</h3>
+
+          <p class="project-overview">
+            A fully automated, monitored and Infrastructure-as-Code managed static site:
+            a private S3 origin locked behind CloudFront Origin Access Control, OIDC-based
+            CI/CD with no stored AWS credentials, and Lambda-driven cache invalidation on
+            every deploy.
+          </p>
+
+          <ul class="project-points">
+            <li>Private S3 origin; Block Public Access, no exceptions</li>
+            <li>CloudFront + Origin Access Control, HTTPS-only</li>
+            <li>GitHub Actions deploys via OIDC, zero stored credentials</li>
+            <li>Lambda auto-invalidates the CloudFront cache on every deploy</li>
+            <li>CloudWatch alarms + SNS email alerts, tested end-to-end</li>
+            <li>Entire architecture adopted into Terraform via import</li>
+          </ul>
+
+          <div class="tag-row">
+            <span class="tag">AWS</span><span class="tag">Security</span>
+            <span class="tag">Automation</span><span class="tag">Terraform</span><span class="tag">IaC</span>
+          </div>
+
+          <p class="tools-line"><strong>Tools:</strong> S3 · CloudFront · Lambda · IAM · CloudWatch · SNS · GitHub Actions · Terraform</p>
+
+          <div class="project-actions">
+<!--            <a href="case-study-aws.html" class="btn btn-primary">Case study</a> -->
+            <a href="https://github.com/leon-mihaljevic/aws-portfolio-site" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">GitHub</a>
+<!--            <a href="https://d2udnhhz7y9ums.cloudfront.net" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Live site</a> -->
+          </div>
+        </article>
+
+        <article class="project-card" data-tags="homelab,linux,networking,docker">
+          <div class="project-top">
+            <p class="project-type">Self-Hosted Infrastructure</p>
+            <span class="status status-active">Self-hosted</span>
+          </div>
+
+          <h3>Self-Hosted Cloud Infrastructure Homelab</h3>
+
+          <p class="project-overview">
+            A virtualized home server built on Proxmox VE, running isolated virtual machines
+            for storage and application workloads (the on-prem counterpart to the AWS
+            deployment project)
+          </p>
+
+          <ul class="project-points">
+            <li>Proxmox VE virtualization</li>
+            <li>Docker-based service stack</li>
+            <li>NFS / Samba persistent storage</li>
+            <li>Networking and remote access</li>
+          </ul>
+
+          <div class="tag-row">
+            <span class="tag">Homelab</span><span class="tag">Linux</span>
+            <span class="tag">Networking</span><span class="tag">Docker</span>
+          </div>
+
+          <p class="tools-line"><strong>Tools:</strong> Proxmox VE · Docker · Ubuntu Server · VMs · NFS · Storage </p>
+
+          <div class="project-actions">
+            <a href="https://github.com/leon-mihaljevic/home-lab" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">GitHub</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- EDUCATION -->
+  <section id="education" class="section section-alt">
+    <div class="container">
+
+      <div class="section-head reveal">
+        <p class="term-line">~ $ cat education.md</p>
+        <h2>Education.</h2>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">2026 — Present</div>
+          <div class="timeline-body">
+            <h3>Faculty of Electrical Engineering and Computing (FER)</h3>
+            <p class="timeline-subtitle">B.Sc. Computer Science — Zagreb, Croatia</p>
+            <p>Computer Science studies with a focus on developing a strong foundation in computing, systems and software.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications" class="section">
+    <div class="container">
+
+      <div class="section-head reveal">
+        <p class="term-line">~ $ aws sts get-caller-identity</p>
+        <h2>Certifications.</h2>
+      </div>
+
+      <div class="cert-grid">
+        <div class="cert-card">
+          <div class="cert-top">
+            <h3>AWS Certified Solutions Architect — Associate</h3>
+            <span class="status status-progress">In progress</span>
+          </div>
+          <p class="cert-meta">
+            Studying AWS architecture, IAM, networking, storage, compute, databases and infrastructure design.
+          </p>
+        </div>
+
+        <div class="cert-card">
+          <div class="cert-top">
+            <h3>Google Cybersecurity Professional Certificate</h3>
+            <span class="status status-live">Completed</span>
+          </div>
+          <p class="cert-meta">Google · Coursera — February 2026</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- CONTACT -->
+  <section id="contact" class="section contact-section">
+    <div class="container">
+      <p class="term-line">~ $ curl -X POST /contact</p>
+      <h2>Let's connect.</h2>
+      <!--<p class="lede">
+        Interested in cloud infrastructure, systems, cybersecurity or technology projects?
+        Find me online.
+      </p> -->
+
+      <div class="contact-links">
+        <a href="mailto:leonmihaljevic7@gmail.com" class="contact-link">Email</a>
+        <a href="https://github.com/leon-mihaljevic" target="_blank" rel="noopener noreferrer" class="contact-link">GitHub</a>
+        <a href="https://linkedin.com/in/leon-mihaljevic7" target="_blank" rel="noopener noreferrer" class="contact-link">LinkedIn</a>
+      </div>
+    </div>
+  </section>
 
 </main>
 
-
-<footer>
-    <div class="container footer-inner">
-        <span>© 2026 Leon Mihaljević</span>
-        <span>Built with AWS</span>
-    </div>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© <span id="year">2026</span> Leon Mihaljević</span>
+    <span>Designed, deployed and monitored on AWS.</span>
+  </div>
 </footer>
 
+<script src="main.js"></script>
 </body>
 </html>
