@@ -51,8 +51,8 @@
       <h1>Secure Static Portfolio on AWS</h1>
       <p class="case-lede">
         A personal portfolio site running on a fully automated, monitored, and
-        Infrastructure-as-Code-managed AWS architecture &mdash; built to demonstrate
-        real cloud architecture, security and operational decisions, not application code.
+        Infrastructure-as-Code managed AWS architecture &mdash; built to demonstrate
+        real cloud architecture, security and operational decisions.
       </p>
 
       <div class="case-links">
@@ -65,7 +65,7 @@
         <p>
           Content delivery, deployment, cache automation and monitoring are four
           separate, deliberately decoupled flows &mdash; each does one job, so a
-          failure or change in one doesn't ripple into the others.
+          failure or change in one doesn't affect the others.
         </p>
 
         <div class="diagram-wrap">
@@ -137,8 +137,8 @@
 
         <p style="font-size: 13px; color: var(--ink-faint); font-style: italic;">
           Every box in this diagram is defined in Terraform and was adopted via
-          <code>terraform import</code> against already-running infrastructure &mdash;
-          nothing here was recreated to get it under IaC.
+          <code>terraform import</code> against previously running infrastructure &mdash;
+          not recreated to get it under IaC.
         </p>
 
         <div class="flow-list">
@@ -173,7 +173,7 @@
             <tr><td>Lambda</td><td>Triggered by S3 object-create events, auto-invalidates the CloudFront cache</td></tr>
             <tr><td>IAM</td><td>Resource-scoped least-privilege policies across three separate identities</td></tr>
             <tr><td>GitHub Actions + OIDC</td><td>CI/CD authentication with zero stored AWS credentials</td></tr>
-            <tr><td>CloudWatch + SNS</td><td>Error-rate and failure alarms, emailed on trigger</td></tr>
+            <tr><td>CloudWatch + SNS</td><td>Error rate and failure alarms, emailed on trigger</td></tr>
             <tr><td>Terraform</td><td>Full infrastructure-as-code, adopted via <code>import</code></td></tr>
           </tbody>
         </table>
@@ -182,8 +182,7 @@
       <div class="case-section">
         <h2>Security model</h2>
         <p>
-          This project deliberately avoids the common "S3 static website hosting + public bucket"
-          tutorial pattern. Instead:
+          This project deliberately avoids the common "S3 static website hosting + public bucket" pattern. Instead:
         </p>
         <ul>
           <li><strong>Block Public Access</strong> is enabled on the bucket &mdash; no ACLs, no public bucket policy, no exceptions.</li>
