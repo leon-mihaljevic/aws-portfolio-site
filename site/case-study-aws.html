@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study: Secure Static Portfolio on AWS | Leon Mihaljević</title>
+<meta
+  name="description"
+  content="Architecture, security model and lessons learned building a fully automated, monitored, Terraform-managed AWS static site."
+>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">LM</span>
+    </a>
+
+    <nav class="primary-nav" aria-label="Primary">
+      <a href="index.html#about">About</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#education">Education</a>
+      <a href="index.html#certifications">Certifications</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Switch to light theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+    <article class="case-study">
+
+      <a href="index.html#projects" class="back-link">&larr; Back to projects</a>
+
+      <p class="term-line">~ $ cat case-study-aws.md</p>
+      <h1>Secure Static Portfolio on AWS</h1>
+      <p class="case-lede">
+        A personal portfolio site running on a fully automated, monitored, and
+        Infrastructure-as-Code-managed AWS architecture &mdash; built to demonstrate
+        real cloud architecture, security and operational decisions, not application code.
+      </p>
+
+      <div class="case-links">
+        <a href="https://github.com/leon-mihaljevic/aws-portfolio-site" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View on GitHub</a>
+        <a href="index.html#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+
+      <div class="case-section">
+        <h2>Architecture</h2>
+        <p>
+          Content delivery, deployment, cache automation and monitoring are four
+          separate, deliberately decoupled flows &mdash; each does one job, so a
+          failure or change in one doesn't ripple into the others.
+        </p>
+
+        <div class="diagram-wrap">
+          <svg class="arch-diagram" viewBox="0 0 680 600" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                <path class="arrowhead" d="M0,0 L8,4 L0,8 Z"></path>
+              </marker>
+              <marker id="arrowhead-quiet" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                <path class="arrowhead-quiet" d="M0,0 L8,4 L0,8 Z"></path>
+              </marker>
+            </defs>
+
+            <!-- Boxes -->
+            <rect class="box" x="30" y="30" width="170" height="56" rx="8"></rect>
+            <text class="box-title" x="115" y="55" text-anchor="middle">GitHub</text>
+            <text class="box-sub" x="115" y="72" text-anchor="middle">git push -&gt; main</text>
+
+            <rect class="box" x="30" y="132" width="170" height="66" rx="8"></rect>
+            <text class="box-title" x="115" y="158" text-anchor="middle">GitHub Actions</text>
+            <text class="box-sub" x="115" y="176" text-anchor="middle">OIDC, no stored keys</text>
+
+            <rect class="box" x="480" y="30" width="170" height="56" rx="8"></rect>
+            <text class="box-title" x="565" y="55" text-anchor="middle">Internet</text>
+            <text class="box-sub" x="565" y="72" text-anchor="middle">HTTPS request</text>
+
+            <rect class="box" x="480" y="132" width="170" height="72" rx="8"></rect>
+            <text class="box-title" x="565" y="160" text-anchor="middle">CloudFront</text>
+            <text class="box-sub" x="565" y="178" text-anchor="middle">OAC, HTTPS-only</text>
+
+            <rect class="box" x="255" y="256" width="170" height="80" rx="8"></rect>
+            <text class="box-title" x="340" y="288" text-anchor="middle">S3 (private)</text>
+            <text class="box-sub" x="340" y="306" text-anchor="middle">Block Public Access</text>
+
+            <rect class="box" x="255" y="382" width="170" height="66" rx="8"></rect>
+            <text class="box-title" x="340" y="408" text-anchor="middle">Lambda</text>
+            <text class="box-sub" x="340" y="426" text-anchor="middle">cache invalidation</text>
+
+            <rect class="box" x="255" y="494" width="170" height="76" rx="8"></rect>
+            <text class="box-title" x="340" y="524" text-anchor="middle">CloudWatch -&gt; SNS</text>
+            <text class="box-sub" x="340" y="542" text-anchor="middle">email alert</text>
+
+            <!-- Arrows -->
+            <line class="arrow" x1="115" y1="86" x2="115" y2="130" marker-end="url(#arrowhead)"></line>
+            <text class="arrow-label" x="122" y="112">push</text>
+
+            <line class="arrow" x1="565" y1="86" x2="565" y2="130" marker-end="url(#arrowhead)"></line>
+            <text class="arrow-label" x="572" y="112">HTTPS</text>
+
+            <line class="arrow" x1="200" y1="165" x2="255" y2="280" marker-end="url(#arrowhead)"></line>
+            <text class="arrow-label" x="196" y="225">s3 sync</text>
+
+            <line class="arrow" x1="480" y1="192" x2="425" y2="270" marker-end="url(#arrowhead)"></line>
+            <text class="arrow-label" x="430" y="220">OAC / GetObject</text>
+
+            <line class="arrow" x1="340" y1="336" x2="340" y2="380" marker-end="url(#arrowhead)"></line>
+            <text class="arrow-label" x="347" y="362">S3 event</text>
+
+            <path class="arrow" d="M 425 400 Q 560 400 565 204" fill="none" marker-end="url(#arrowhead)"></path>
+            <text class="arrow-label" x="470" y="392">invalidate</text>
+
+            <line class="arrow-quiet" x1="340" y1="448" x2="340" y2="492" marker-end="url(#arrowhead-quiet)"></line>
+            <text class="arrow-label" x="347" y="474">errors</text>
+
+            <path class="arrow-quiet" d="M 565 204 Q 565 460 425 528" fill="none" marker-end="url(#arrowhead-quiet)"></path>
+            <text class="arrow-label" x="520" y="470">5xx rate</text>
+          </svg>
+        </div>
+
+        <p style="font-size: 13px; color: var(--ink-faint); font-style: italic;">
+          Every box in this diagram is defined in Terraform and was adopted via
+          <code>terraform import</code> against already-running infrastructure &mdash;
+          nothing here was recreated to get it under IaC.
+        </p>
+
+        <div class="flow-list">
+          <div class="flow-row">
+            <span class="flow-label">Content delivery</span>
+            <code>Internet &rarr; CloudFront (OAC, HTTPS) &rarr; S3 (private)</code>
+          </div>
+          <div class="flow-row">
+            <span class="flow-label">Deployment</span>
+            <code>git push (site/**) &rarr; GitHub Actions (OIDC) &rarr; S3</code>
+          </div>
+          <div class="flow-row">
+            <span class="flow-label">Cache automation</span>
+            <code>S3 object change &rarr; Lambda &rarr; CloudFront invalidation</code>
+          </div>
+          <div class="flow-row">
+            <span class="flow-label">Observability</span>
+            <code>Lambda errors / CloudFront 5xx &rarr; CloudWatch Alarm &rarr; SNS &rarr; Email</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-section">
+        <h2>AWS services</h2>
+        <table class="case-table">
+          <thead>
+            <tr><th>Service</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>S3</td><td>Origin storage for static site files, fully private</td></tr>
+            <tr><td>CloudFront</td><td>CDN, HTTPS termination, global edge caching</td></tr>
+            <tr><td>Lambda</td><td>Triggered by S3 object-create events, auto-invalidates the CloudFront cache</td></tr>
+            <tr><td>IAM</td><td>Resource-scoped least-privilege policies across three separate identities</td></tr>
+            <tr><td>GitHub Actions + OIDC</td><td>CI/CD authentication with zero stored AWS credentials</td></tr>
+            <tr><td>CloudWatch + SNS</td><td>Error-rate and failure alarms, emailed on trigger</td></tr>
+            <tr><td>Terraform</td><td>Full infrastructure-as-code, adopted via <code>import</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="case-section">
+        <h2>Security model</h2>
+        <p>
+          This project deliberately avoids the common "S3 static website hosting + public bucket"
+          tutorial pattern. Instead:
+        </p>
+        <ul>
+          <li><strong>Block Public Access</strong> is enabled on the bucket &mdash; no ACLs, no public bucket policy, no exceptions.</li>
+          <li><strong>Origin Access Control (OAC)</strong> is the only path into the bucket, via a SigV4-signed request. Verified directly &mdash; a raw request to the S3 object URL was tested and confirmed denied.</li>
+          <li><strong>No long-lived AWS credentials anywhere in CI.</strong> GitHub Actions authenticates via OIDC: a short-lived, signed token presented directly to AWS STS, never a stored access key.</li>
+          <li>
+            <strong>Three IAM identities, each scoped to exactly what it needs:</strong>
+            <ul>
+              <li>The human operator user &mdash; resource-scoped to this project's exact S3 bucket, CloudFront distribution, Lambda function and IAM roles, not broad service wildcards.</li>
+              <li>The Lambda execution role &mdash; one action (<code>cloudfront:CreateInvalidation</code>), one resource.</li>
+              <li>The GitHub Actions role &mdash; S3 sync permissions only. No CloudFront access at all; invalidation is the Lambda's job, kept deliberately separate.</li>
+            </ul>
+          </li>
+          <li>Root is never used day-to-day, and has MFA enabled.</li>
+        </ul>
+      </div>
+
+      <div class="case-section">
+        <h2>Automation &amp; monitoring</h2>
+        <p>
+          An S3 "object created" event triggers the Lambda, which calls CloudFront's
+          <code>create_invalidation</code> API &mdash; no manual cache-clearing step exists
+          anywhere in this project. Deploys are triggered by a push to <code>main</code>
+          under <code>site/</code>, authenticated via OIDC.
+        </p>
+        <p>
+          Two CloudWatch alarms watch the parts of the system most likely to fail silently:
+          Lambda errors, and CloudFront's 5xx rate. Both notify a region-appropriate SNS topic
+          by email, and both were tested end-to-end by deliberately breaking a permission,
+          confirming the alarm fired and the email arrived, then restoring it &mdash; not just
+          configured and assumed working.
+        </p>
+      </div>
+
+      <div class="case-section">
+        <h2>Infrastructure as Code</h2>
+        <p>
+          Everything above is defined in Terraform and was brought under management via
+          <code>terraform import</code> against the already-running, already-live infrastructure
+          &mdash; deliberately not recreated from scratch, to avoid any risk of downtime or a
+          changed CloudFront URL during the migration. Every import was followed by
+          <code>terraform plan</code> to confirm zero drift before moving to the next resource.
+        </p>
+        <p>
+          Deliberately left unmanaged (referenced by ARN/value only): the WAF Web ACL discovered
+          during this migration (see Lessons learned), the customer-managed IAM policy the Lambda
+          console auto-generates for logging, and the operator IAM user itself &mdash; it's the
+          identity <em>running</em> Terraform, so it's kept out of self-management on purpose.
+        </p>
+      </div>
+
+      <div class="case-section">
+        <h2>Cost</h2>
+        <p>
+          Designed to stay effectively free at portfolio-site traffic levels: S3, CloudFront and
+          Lambda all sit comfortably inside free-tier allowances (Lambda's is permanent, not
+          time-limited). No custom domain, no RDS, no always-on compute. An AWS Budget alarm was
+          configured before any resource was created, as a safety net.
+        </p>
+      </div>
+
+      <div class="case-section">
+        <h2>Lessons learned</h2>
+        <ul>
+          <li>The CloudFront <strong>origin path</strong> is a path inside the bucket, not the bucket name &mdash; an early misconfiguration caused 403s until corrected.</li>
+          <li>GitHub's OIDC <code>sub</code> claim uses an immutable numeric ID format, not the human-readable <code>repo:owner/repo:ref:...</code> form most examples show. Diagnosed via CloudTrail by checking the actual claim AWS received on a failed <code>AssumeRoleWithWebIdentity</code> call.</li>
+          <li>An unintended AWS WAF Web ACL was found attached to the distribution mid-migration &mdash; never deliberately configured, almost certainly opted into via a console default. WAF has no free tier; Cost Explorer confirmed $0 actually billed, and it was evaluated deliberately rather than reflexively removed.</li>
+          <li>The Lambda console's "basic execution role" default doesn't attach the AWS-owned managed policy &mdash; it clones it into a customer-managed policy first. Only discovered because Terraform's import failed against the ARN that seemed correct.</li>
+          <li>New AWS Lambda runtimes can outpace Terraform provider support &mdash; a real, if temporary, tooling gap rather than a configuration mistake.</li>
+          <li>Least-privilege IAM is iterative, not one-shot. Nearly every phase of this project surfaced a permission gap only discoverable by actually hitting it.</li>
+        </ul>
+      </div>
+
+      <div class="case-links case-links-end">
+        <a href="index.html#projects" class="btn btn-ghost">&larr; Back to projects</a>
+        <a href="https://github.com/leon-mihaljevic/aws-portfolio-site" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Full README on GitHub</a>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <span>&copy; <span id="year">2026</span> Leon Mihaljević</span>
+    <span>Designed, deployed and monitored on AWS.</span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
