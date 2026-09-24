@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study: Homelab Portal | Leon Mihaljević</title>
+<meta
+  name="description"
+  content="Architecture, CI/CD pipeline and hybrid cloud connectivity behind a two-tier Flask app deployed on AWS EC2, monitoring a real on-prem homelab over Tailscale."
+>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">LM</span>
+    </a>
+
+    <nav class="primary-nav" aria-label="Primary">
+      <a href="index.html#about">About</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#education">Education</a>
+      <a href="index.html#certifications">Certifications</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Switch to light theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+    <article class="case-study">
+
+      <a href="index.html#projects" class="back-link">&larr; Back to projects</a>
+
+      <p class="term-line">~ $ cat case-study-homelab-portal.md</p>
+      <h1>Homelab Portal</h1>
+      <p class="case-lede">
+        A two-tier Flask + PostgreSQL application that monitors real homelab infrastructure
+        live, deployed on AWS EC2 with a self-hosted Jenkins pipeline that reaches back into
+        the on-prem homelab over Tailscale &mdash; built to demonstrate full-stack development,
+        CI/CD, containerization and hybrid cloud architecture together.
+      </p>
+
+      <div class="case-links">
+        <a href="https://github.com/leon-mihaljevic/homelab-portal" target="_blank" rel="noopener noreferrer" class="btn btn-primary">View on GitHub</a>
+        <a href="index.html#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+
+      <div class="case-section">
+        <h2>Architecture</h2>
+        <p>
+          The app's entire purpose is monitoring homelab infrastructure, which creates a real
+          architectural question once it's hosted in the cloud: how does a cloud-hosted app
+          reach securely back into private on-prem infrastructure? The homelab already runs
+          Tailscale for remote access &mdash; joining the EC2 instance to the same tailnet
+          extends that trust boundary instead of building a separate, weaker one with public
+          ports.
+        </p>
+
+        <div class="diagram-wrap">
+          <svg class="arch-diagram" viewBox="0 0 680 600" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arrowhead2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                <path class="arrowhead" d="M0,0 L8,4 L0,8 Z"></path>
+              </marker>
+              <marker id="arrowhead2-quiet" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                <path class="arrowhead-quiet" d="M0,0 L8,4 L0,8 Z"></path>
+              </marker>
+            </defs>
+
+            <!-- Boxes -->
+            <rect class="box" x="30" y="30" width="170" height="56" rx="8"></rect>
+            <text class="box-title" x="115" y="55" text-anchor="middle">GitHub</text>
+            <text class="box-sub" x="115" y="72" text-anchor="middle">git push -&gt; main</text>
+
+            <rect class="box" x="30" y="132" width="170" height="74" rx="8"></rect>
+            <text class="box-title" x="115" y="156" text-anchor="middle">Jenkins</text>
+            <text class="box-sub" x="115" y="172" text-anchor="middle">jenkins-01, on-prem</text>
+            <text class="box-sub" x="115" y="188" text-anchor="middle">Build -&gt; Test -&gt; Push -&gt; Deploy</text>
+
+            <rect class="box" x="30" y="254" width="170" height="56" rx="8"></rect>
+            <text class="box-title" x="115" y="280" text-anchor="middle">Docker Hub</text>
+            <text class="box-sub" x="115" y="297" text-anchor="middle">image registry</text>
+
+            <rect class="box" x="480" y="30" width="170" height="56" rx="8"></rect>
+            <text class="box-title" x="565" y="55" text-anchor="middle">Your devices</text>
+            <text class="box-sub" x="565" y="72" text-anchor="middle">access over Tailscale</text>
+
+            <rect class="box" x="480" y="132" width="170" height="76" rx="8"></rect>
+            <text class="box-title" x="565" y="158" text-anchor="middle">AWS EC2</text>
+            <text class="box-sub" x="565" y="174" text-anchor="middle">web + db containers</text>
+            <text class="box-sub" x="565" y="190" text-anchor="middle">runs on demand, not 24/7</text>
+
+            <rect class="box" x="255" y="382" width="170" height="76" rx="8"></rect>
+            <text class="box-title" x="340" y="408" text-anchor="middle">Proxmox API / docker-01</text>
+            <text class="box-sub" x="340" y="424" text-anchor="middle">on-prem homelab</text>
+            <text class="box-sub" x="340" y="440" text-anchor="middle">read-only, forced-command keys</text>
+
+            <!-- Arrows -->
+            <line class="arrow" x1="115" y1="86" x2="115" y2="130" marker-end="url(#arrowhead2)"></line>
+            <text class="arrow-label" x="122" y="112">poll (no inbound needed)</text>
+
+            <line class="arrow" x1="565" y1="86" x2="565" y2="130" marker-end="url(#arrowhead2)"></line>
+            <text class="arrow-label" x="572" y="112">login-gated</text>
+
+            <line class="arrow" x1="200" y1="270" x2="255" y2="282" marker-end="url(#arrowhead2)"></line>
+            <text class="arrow-label" x="196" y="245">push image</text>
+
+            <line class="arrow" x1="425" y1="282" x2="480" y2="195" marker-end="url(#arrowhead2)"></line>
+            <text class="arrow-label" x="430" y="250">pull on deploy</text>
+
+            <path class="arrow" d="M 200 175 Q 340 130 480 175" fill="none" marker-end="url(#arrowhead2)"></path>
+            <text class="arrow-label" x="290" y="128">SSH deploy, auto-starts if stopped</text>
+
+            <path class="arrow-quiet" d="M 480 195 Q 420 320 425 400" fill="none" marker-end="url(#arrowhead2-quiet)"></path>
+            <text class="arrow-label" x="440" y="320">live status,</text>
+            <text class="arrow-label" x="440" y="333">Tailscale</text>
+          </svg>
+        </div>
+
+        <p style="font-size: 13px; color: var(--ink-faint); font-style: italic;">
+          Two VMs, one shared purpose on the on-prem side: Jenkins runs alone on its own VM,
+          kept separate from where the monitored infrastructure actually lives, so
+          a compromised build never has a direct path to anything else.
+        </p>
+
+        <div class="flow-list">
+          <div class="flow-row">
+            <span class="flow-label">CI trigger</span>
+            <code>git push &rarr; Jenkins Poll SCM (no port forwarding into the homelab)</code>
+          </div>
+          <div class="flow-row">
+            <span class="flow-label">Deploy</span>
+            <code>Jenkins checks EC2 state &rarr; starts it if stopped &rarr; polls real SSH readiness &rarr; redeploys</code>
+          </div>
+          <div class="flow-row">
+            <span class="flow-label">Live data</span>
+            <code>EC2 &rarr; Tailscale &rarr; Proxmox API (VM status) + forced-command SSH (Docker/disk)</code>
+          </div>
+          <div class="flow-row">
+            <span class="flow-label">Access</span>
+            <code>Browser &rarr; Tailscale &rarr; EC2:5000, session login required</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-section">
+        <h2>Tools &amp; services</h2>
+        <table class="case-table">
+          <thead>
+            <tr><th>Tool</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Flask + gunicorn</td><td>Application server; gunicorn in production, not Flask's dev server</td></tr>
+            <tr><td>PostgreSQL</td><td>Persistent inventory data, isolated in its own container with no host port exposed</td></tr>
+            <tr><td>Docker / Compose</td><td>Two-tier containerization; a deploy-only override swaps a locally built image for a pulled, tested one</td></tr>
+            <tr><td>Jenkins</td><td>Self-hosted CI/CD on a dedicated on-prem VM, isolated from the deploy target</td></tr>
+            <tr><td>AWS EC2</td><td>Deploy target, run on demand</td></tr>
+            <tr><td>Docker Hub</td><td>Image registry, pushed to only after a real test stage passes</td></tr>
+            <tr><td>Proxmox VE API</td><td>Live VM status and uptime, via a read-only scoped token</td></tr>
+            <tr><td>Tailscale</td><td>Private mesh network bridging the cloud deploy target and the on-prem homelab</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="case-section">
+        <h2>Security model</h2>
+        <p>
+          Every credential in this project is scoped to the minimum it needs:
+        </p>
+        <ul>
+          <li><strong>Proxmox API token</strong> &mdash; the built-in <code>PVEAuditor</code> role: read-only, can see status but can't start, stop or modify anything.</li>
+          <li><strong>SSH "agent" key</strong> (live Docker/disk data) &mdash; restricted via an OpenSSH forced <code>command=</code> to running exactly two whitelisted operations, nothing else, no shell.</li>
+          <li><strong>SSH "deploy" key</strong> (Jenkins &rarr; EC2) &mdash; same forced-command pattern, allow-listed to a health check and the redeploy script only.</li>
+          <li><strong>IAM user for EC2 auto-start</strong> &mdash; <code>ec2:StartInstances</code> scoped to this exact instance ARN; <code>ec2:DescribeInstances</code> forced to a wildcard resource by AWS's own API, not a looser choice.</li>
+          <li><strong>No Elastic IP, no public inbound ports beyond Tailscale's own UDP port</strong> &mdash; not even SSH is reachable from the open internet; every connection goes over the tailnet.</li>
+          <li>The app itself is login-gated (session-based, password stored as a salted hash), not just left open to anyone who finds the address.</li>
+        </ul>
+      </div>
+
+      <div class="case-section">
+        <h2>CI/CD pipeline</h2>
+        <p>
+          Every push to <code>main</code> runs a real four-stage pipeline: <strong>Build</strong>
+          (tagged with both a build number and <code>latest</code>), <strong>Test</strong> (a
+          throwaway Postgres and the newly built image on an isolated Docker network, polled
+          against the image's own health check until it reports healthy or the stage fails with
+          logs attached), <strong>Push</strong> (only reached if Test passed), and
+          <strong>Deploy</strong>.
+        </p>
+        <p>
+          Deploy is the interesting stage: since EC2 isn't running 24/7, it first checks AWS's
+          reported instance state, starts the instance if it's stopped, waits for AWS's own
+          "running" confirmation &mdash; and then separately polls for actual SSH reachability,
+          because AWS reporting "running" and the OS/SSH daemon being genuinely ready are two
+          different moments. Trusting the first one alone made the pipeline flaky in practice.
+        </p>
+      </div>
+
+      <div class="case-section">
+        <h2>Database migration</h2>
+        <p>
+          Real inventory data was migrated from the original on-prem deployment to EC2 using
+          <code>pg_dump</code>/<code>psql</code> &mdash; the standard approach for any Postgres
+          migration regardless of scale. A <code>--data-only</code> dump avoided schema
+          collisions (the schema already existed identically on both sides, since both run the
+          same app code), and <code>TRUNCATE ... RESTART IDENTITY CASCADE</code> cleared test
+          data on the target while resetting ID sequences before the restore, so migrated rows
+          kept their original IDs without conflicts.
+        </p>
+      </div>
+
+      <div class="case-section">
+        <h2>Bugs found and fixed</h2>
+        <ul>
+          <li>
+            <strong>Gunicorn multi-worker race condition.</strong> Table creation ran at module
+            import time, meaning every worker process executed it independently on startup.
+            Against a genuinely empty database (exactly what the Test stage always uses), two
+            workers raced to create the same table and one crashed on a duplicate-key error.
+            Fixed with <code>preload_app</code> so initialization runs once before forking, plus
+            a <code>post_fork</code> hook giving each worker its own fresh database connection.
+          </li>
+          <li>
+            <strong>Docker Compose interpreting <code>$</code> as a variable reference.</strong>
+            Scrypt password hashes contain <code>$</code> delimiters; Compose silently swallowed
+            part of a hash as an undefined variable until it was escaped as <code>$$</code>.
+          </li>
+          <li>
+            <strong>A forced-command SSH health probe rejected by its own security restriction.</strong>
+            The Jenkins readiness check called an arbitrary command over SSH; the deploy key's
+            forced-command wrapper correctly rejected it as unrecognized, since it was only ever
+            allow-listed to run one specific redeploy script. The fix added a second, minimal
+            allow-listed command for health checks &mdash; the restriction was working exactly as
+            designed throughout; the probe just needed to respect it.
+          </li>
+        </ul>
+      </div>
+
+      <div class="case-section">
+        <h2>Cost</h2>
+        <p>
+          Designed to stay low cost at real usage: the EC2 instance runs only when needed,
+          not 24/7, with Jenkins automatically starting it on deploy. No Elastic IP (unnecessary
+          cost, and unneeded since Tailscale provides stable addressing regardless of the
+          instance's AWS-assigned IP across stop/start cycles). The EBS volume is the one cost
+          that exists regardless of usage, and it's small.
+        </p>
+      </div>
+
+      <div class="case-section">
+        <h2>What's next</h2>
+        <ul>
+          <li>Proxmox backup status, extending the existing read-only API integration</li>
+          <li>A second Jenkins build agent, so the controller itself never touches Docker directly</li>
+          <li>A genuine push-based GitHub webhook via a tunnel service, replacing the current polling delay</li>
+          <li>Alembic for schema migrations, now that the database holds real data</li>
+        </ul>
+      </div>
+
+      <div class="case-links case-links-end">
+        <a href="index.html#projects" class="btn btn-ghost">&larr; Back to projects</a>
+        <a href="https://github.com/leon-mihaljevic/homelab-portal" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Full README on GitHub</a>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <span>&copy; <span id="year">2026</span> Leon Mihaljević</span>
+    <span>Designed, deployed and monitored on AWS.</span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

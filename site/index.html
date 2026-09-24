@@ -276,6 +276,44 @@
           </div>
         </article>
 
+        <article class="project-card featured" data-tags="aws,docker,cicd,jenkins,hybrid-cloud">
+          <div class="project-top">
+            <p class="project-type">Full-Stack / Hybrid Cloud CI-CD</p>
+            <span class="status status-live">Live</span>
+          </div>
+
+          <h3>Homelab Portal</h3>
+
+          <p class="project-overview">
+            A two-tier Flask + PostgreSQL application that monitors real homelab infrastructure
+            live &mdash; Proxmox VM status, Docker container health, disk usage &mdash; deployed
+            on AWS EC2 with a self-hosted Jenkins pipeline that builds, tests against a real
+            throwaway database, and deploys automatically, reaching back into the on-prem
+            homelab over Tailscale.
+          </p>
+
+          <ul class="project-points">
+            <li>Full CRUD inventory app: Flask, SQLAlchemy, PostgreSQL</li>
+            <li>Live data from the Proxmox API and forced-command SSH, not manual entry</li>
+            <li>4-stage Jenkins pipeline: Build &rarr; Test (real throwaway database) &rarr; Push &rarr; Deploy</li>
+            <li>Deployed on AWS EC2, reached and managed entirely over Tailscale</li>
+            <li>EC2 auto-starts on deploy &mdash; runs on demand, not 24/7, to control cost</li>
+            <li>Every credential scoped to least privilege: read-only Proxmox tokens, forced-command SSH keys, resource-scoped IAM</li>
+          </ul>
+
+          <div class="tag-row">
+            <span class="tag">AWS EC2</span><span class="tag">Docker</span>
+            <span class="tag">Jenkins</span><span class="tag">CI/CD</span><span class="tag">Hybrid Cloud</span>
+          </div>
+
+          <p class="tools-line"><strong>Tools:</strong> Flask · PostgreSQL · Docker · Jenkins · AWS EC2 · Docker Hub · Proxmox API · Tailscale</p>
+
+          <div class="project-actions">
+            <a href="case-study-homelab-portal.html" class="btn btn-primary">Case study</a>
+            <a href="https://github.com/leon-mihaljevic/homelab-portal" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">GitHub</a>
+          </div>
+        </article>
+
       </div>
     </div>
   </section>
